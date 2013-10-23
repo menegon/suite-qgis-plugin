@@ -14,13 +14,13 @@ from qgis.core import *
 from PyQt4.QtXml import *
 from PyQt4.QtCore import *
 from opengeo.qgis import layers, exporter
-from opengeo.geoserver.catalog import ConflictingDataError, UploadError
-from opengeo.geoserver.catalog import Catalog as GSCatalog
+from geoserver.catalog import ConflictingDataError, UploadError
+from geoserver.catalog import Catalog as GSCatalog
 from opengeo.qgis.sldadapter import adaptGsToQgs,\
     getGsCompatibleSld
 from opengeo.qgis import uri as uri_utils
 from opengeo.qgis.utils import tempFilename
-from opengeo.geoserver.importerclient import Client
+from gsimporter.client import Client
 
 try:
     from processing.modeler.ModelerAlgorithm import ModelerAlgorithm

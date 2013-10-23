@@ -11,10 +11,12 @@ First, clone the OpenGeo Explorer repository
 
 	$ git clone https://github.com/boundlessgeo/suite-qgis-plugin.git
 
-The repository contains all the code of the plugin, but not the code of the libraries it depends on. Since the QGIS plugin manager does not allow to install dependencies when installing a plugin, the Explorer plugin itself contains the code of those libraries, but in this case you should install them manually.
+The repository contains all the code of the plugin, but not the code of the libraries it depends on. Since the QGIS plugin manager does not allow to install dependencies when installing a plugin, the Explorer plugin itself contains the code of those libraries. when you are setting your development environment, however, you should install them manually.
 
 These are the libraries that the OpenGeo Explorer requires.
 
+- gsconfig (https://github.com/boundlessgeo/gsconfig)
+- gsimporter (https://github.com/ischneider/gsimporter)
 - httplib2 (http://code.google.com/p/httplib2/)
 - raven (http://github.com/getsentry/raven-python)
 - requests (http://www.python-requests.org/en/latest/)
@@ -25,6 +27,8 @@ You can install those libraries in your Python installation (and, of course, in 
 
 	opengeo
 	├───ext_libs
+	│   ├───geoserver
+	│   ├───gsimporter
 	│   ├───httplib2
 	│   ├───raven
 	│   │   ├───conf
@@ -62,7 +66,6 @@ You can install those libraries in your Python installation (and, of course, in 
 	│               ├───contrib
 	│               └───packages
 	│                   └───ssl_match_hostname
-	├───geoserver
 	├───gui
 	│   └───dialogs
 	├───images
@@ -76,5 +79,5 @@ You should clone/dowload the code of those dependencies, and then copy or symlin
 
 The plugin adds the ``ext_libs`` folder to the Python path automatically when it is loaded by QGIS. Make sure you add it as well in case you are setting up your system this way instead of installing the libraries manually.
 
-A python script to package and copy the code to your QGIS plugins folder is available in the ``install.py`` script. If you have a standard QGIS installation, you should be able to execute without modifications, and have the Explorer plugin added to the list of available QGIS plugins.
+A python script to package and copy the code to your QGIS plugins folder is available in the ``install.py`` script. If you have a standard QGIS installation, you should be able to execute without modifications, and have the Explorer plugin added to the list of available QGIS plugins. Make sure you activate the plugin in the plugin manager, so the OpenGeo menu is visible and you can launch the OpenGeo Explorer
 

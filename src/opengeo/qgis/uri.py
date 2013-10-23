@@ -1,6 +1,6 @@
 import urllib
 from qgis.core import *
-from opengeo.geoserver.layer import Layer
+from geoserver.layer import Layer
 from opengeo.postgis.table import Table
 
 def layerUri(layer):

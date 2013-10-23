@@ -6,16 +6,16 @@ from opengeo.gui.gsexploreritems import GsLayerItem,\
     GsWorkspacesItem, GsProcessesItem
 from opengeo.qgis import layers as qgislayers
 from opengeo.gui.explorertree import ExplorerTreeWidget
-from opengeo.geoserver.gwc import Gwc
+from geoserver.gwc import Gwc
 from opengeo.postgis.connection import PgConnection
 from opengeo.gui.pgexploreritems import PgConnectionsItem, PgSchemaItem
 from opengeo.gui.qgsexploreritems import QgsProjectItem, QgsGroupItem,\
     QgsLayerItem, QgsStyleItem
-from opengeo.geoserver.wps import Wps
+from geoserver.wps import Wps
 from dialogs.catalogdialog import DefineCatalogDialog
 from opengeo.gui.dialogs.userpasswd import UserPasswdDialog
 from opengeo.gui.dialogs.pgconnectiondialog import NewPgConnectionDialog
-from opengeo.geoserver.catalog import Catalog
+from geoserver.catalog import Catalog
 from opengeo.gui.gwcexploreritems import GwcLayerItem, GwcLayersItem
 
 class GsTreePanel(QtGui.QWidget):

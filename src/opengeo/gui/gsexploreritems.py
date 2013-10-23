@@ -3,25 +3,25 @@ from qgis.core import *
 from PyQt4 import QtGui,QtCore
 from PyQt4.QtCore import *
 from opengeo.qgis import layers as qgislayers
-from opengeo.geoserver.store import DataStore, CoverageStore
-from opengeo.geoserver.resource import Coverage, FeatureType
+from geoserver.store import DataStore, CoverageStore
+from geoserver.resource import Coverage, FeatureType
 from dialogs.catalogdialog import DefineCatalogDialog
-from opengeo.geoserver.style import Style
-from opengeo.geoserver.layer import Layer
+from geoserver.style import Style
+from geoserver.layer import Layer
 from dialogs.styledialog import AddStyleToLayerDialog, StyleFromLayerDialog
 from opengeo.qgis.catalog import OGCatalog
 from opengeo.gui.exploreritems import TreeItem
 from dialogs.groupdialog import LayerGroupDialog
 from dialogs.workspacedialog import DefineWorkspaceDialog
-from opengeo.geoserver.layergroup import UnsavedLayerGroup
+from geoserver.layergroup import UnsavedLayerGroup
 from opengeo.gui.qgsexploreritems import QgsLayerItem, QgsGroupItem,\
     QgsStyleItem
-from opengeo.geoserver.catalog import Catalog
+from geoserver.catalog import Catalog
 from opengeo.gui.pgexploreritems import PgTableItem
 import traceback
-from opengeo.geoserver.wps import Wps
+from geoserver.wps import Wps
 from dialogs.crsdialog import CrsSelectionDialog
-from opengeo.geoserver.settings import Settings
+from geoserver.settings import Settings
 from opengeo.gui.parametereditor import ParameterEditor
 from dialogs.sldeditor import SldEditorDialog
 from opengeo.gui.gwcexploreritems import GwcLayersItem
@@ -29,8 +29,7 @@ from opengeo import config
 from opengeo.qgis.utils import tempFilename
 from opengeo.qgis.sldadapter import adaptGsToQgs, getGeomTypeFromSld,\
     getGsCompatibleSld
-from opengeo.geoserver.util import getLayerFromStyle
-from opengeo.geoserver.geonode import Geonode
+from geoserver.geonode import Geonode
 
 class GsTreeItem(TreeItem):
     
@@ -246,7 +245,7 @@ class GsCatalogsItem(GsTreeItem):
                     i += 1
                 geonode = Geonode(dlg.geonodeUrl)
                 geoserverItem = GsCatalogItem(cat, name, geonode)
-                geoserverItem.populate()                
+                explorer.run(geoserverItem.populate, "Connect to GeoServer catalog", [])                
                 if geoserverItem is not None:
                     self._catalogs[name] = cat
                     self.addChild(geoserverItem)
@@ -1002,9 +1001,22 @@ class GsStyleItem(GsTreeItem):
         deleteSelectedAction.triggered.connect(lambda: self.deleteElements(selected, tree, explorer))
         return [deleteSelectedAction]
     
+    def getLayerFromStyle(self, style):
+        '''Tries to find out which layer is using a given style.
+        Returns none if cannot find a layer using the style'''
+        cat = style.catalog
+        layers = cat.get_layers()
+        for layer in layers:
+            if layer.default_style.name == style.name:
+                return layer
+            alternateStyles = layer.styles
+            for alternateStyle in alternateStyles:
+                if style.name == alternateStyle.name:
+                    return layer
+            
     def editStyle(self, tree, explorer, gslayer = None): 
         if gslayer is None:
-            gslayer = getLayerFromStyle(self.element)               
+            gslayer = self.getLayerFromStyle(self.element)               
         if gslayer is not None:
             if not hasattr(gslayer.resource, "attributes"):
                 QtGui.QMessageBox.warning(explorer, "Edit style", "Editing raster layer styles is currently not supported")
