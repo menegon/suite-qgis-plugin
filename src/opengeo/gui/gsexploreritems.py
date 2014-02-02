@@ -219,7 +219,7 @@ class GsCatalogsItem(GsTreeItem):
                 password = unicode(settings.value("password"))
                 username = unicode(settings.value("username"))
                 geonodeUrl = unicode(settings.value("geonode"))
-                geonode = Geonode(geonodeUrl)                
+                geonode = Geonode(geonodeUrl, username, password)                
                 cat = Catalog(url, username, password)
                 geoserverItem = GsCatalogItem(cat, name, geonode)                
                 self.addChild(geoserverItem)
